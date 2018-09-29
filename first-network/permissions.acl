@@ -1,0 +1,160 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Sample access control list.
+ */
+// rule EverybodyCanReadEverything {
+//     description: "Allow all participants read access to all resources"
+//     participant: "org.example.firstnetwork.SampleParticipant"
+//     operation: READ
+//     resource: "org.example.firstnetwork.*"
+//     action: ALLOW
+// }
+
+rule PersonCanSubmitRequests {
+    description: "Allow person to submit add request"
+    participant: "org.example.firstnetwork.Person"
+    operation: CREATE
+    resource: "org.example.firstnetwork.PersonAdd"
+    action: ALLOW
+}
+
+rule PersonCanUpdateResume {
+    description: "Allow person to update resume"
+    participant: "org.example.firstnetwork.Person"
+    operation: CREATE
+    resource: "org.example.firstnetwork.UpdateResume"
+    action: ALLOW
+}
+
+rule OrgCanApprovedRequests {
+    description: "Allow person to submit add request"
+    participant: "org.example.firstnetwork.Organization"
+    operation: CREATE
+    resource: "org.example.firstnetwork.OrganizationApproved"
+    action: ALLOW
+}
+
+rule OrgCanAddResume {
+    description: "Allow organization to add resume"
+    participant: "org.example.firstnetwork.Organization"
+    operation: CREATE
+    resource: "org.example.firstnetwork.OrganizationAdd"
+    action: ALLOW
+}
+
+rule PersonCanChangeAddEmployer {
+    description: "Allow person to submit add request"
+    participant: "org.example.firstnetwork.Person"
+    operation: CREATE
+    resource: "org.example.firstnetwork.AddEmployer"
+    action: ALLOW
+}
+
+rule PersonCanChangeDeleteEmployer {
+    description: "Allow person to submit add request"
+    participant: "org.example.firstnetwork.Person"
+    operation: CREATE
+    resource: "org.example.firstnetwork.DeleteEmployer"
+    action: ALLOW
+}
+
+rule OrgCanCreateApprovedResume {
+    description: "Allow organization to add resume"
+    participant: "org.example.firstnetwork.Organization"
+    operation: CREATE
+    resource: "org.example.firstnetwork.approvedResume"
+    action: ALLOW
+}
+
+rule PersonCanDeleteApprovedResume {
+    description: "Person have delete  aprovedResume"
+    participant(p): "org.example.firstnetwork.Person"
+    operation: READ, DELETE
+    resource(r): "org.example.firstnetwork.approvedResume"
+    condition: (r.owner.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+rule OwnerHasReadAccessToTheirResume {
+    description: "Person have read access to their resume"
+    participant(p): "org.example.firstnetwork.Person"
+    operation: READ, UPDATE
+    resource(r): "org.example.firstnetwork.Resume"
+    condition: (r.owner.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+rule OwnerHasCreateAccessToTheirRequest {
+    description: "Person have read access to their resume"
+    participant(p): "org.example.firstnetwork.Person"
+    operation: CREATE
+    resource(r): "org.example.firstnetwork.requestResume"
+    condition: (true)
+    action: ALLOW
+}
+
+rule OwnerHasAllAccessToTheirRequest {
+    description: "Person have read access to their resume"
+    participant(p): "org.example.firstnetwork.Person"
+    operation: ALL
+    resource(r): "org.example.firstnetwork.requestResume"
+    condition: (r.owner.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+rule OrganizationHasSomeAccessToTheirWorkerRequest {
+    description: "Person have read access to their resume"
+    participant(p): "org.example.firstnetwork.Organization"
+    operation: READ, DELETE
+    resource(r): "org.example.firstnetwork.requestResume"
+    condition: (r.org.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+rule OrganizationHasReadAccessToTheirWorkerResume {
+    description: "Company have read access to their resume"
+    participant(p): "org.example.firstnetwork.Organization"
+    operation: READ
+    resource(r): "org.example.firstnetwork.Resume"
+    condition: (r.org.some(function(o){
+      return o.getIdentifier() === p.getIdentifier()
+    })) //owner.workingOrganizationId = employer
+    action: ALLOW
+}
+
+rule SystemACL {
+  description:  "System ACL to permit all access"
+  participant: "org.hyperledger.composer.system.Participant"
+  operation: ALL
+  resource: "org.hyperledger.composer.system.**"
+  action: ALLOW
+}
+
+rule NetworkAdminUser {
+    description: "Grant business network administrators full access to user resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "**"
+    action: ALLOW
+}
+
+rule NetworkAdminSystem {
+    description: "Grant business network administrators full access to system resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}

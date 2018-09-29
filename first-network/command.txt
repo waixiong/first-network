@@ -1,0 +1,26 @@
+**** STEP TO START A NODE ****
+
+../startFabric.sh
+
+composer network install --archiveFile first-network.bna --card PeerAdmin@hlfv1
+
+composer network start --networkName first-network --networkVersion 0.0.3 --card PeerAdmin@hlfv1 --networkAdmin admin --networkAdminEnrollSecret adminpw
+
+composer network ping --card admin@first-network
+
+//SOME NEEDED command
+composer network upgrade --networkName first-network --networkVersion 0.0.3 --card PeerAdmin@hlfv1
+
+composer card import --file admin@first-network.card
+
+
+
+**** CREATE BNA FILE ****
+composer archive create --sourceType dir --sourceName . -a first-network.bna
+
+
+composer card delete --card admin@tutorial-network
+
+
+
+
