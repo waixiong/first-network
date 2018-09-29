@@ -2,6 +2,9 @@
 
 first network for HRB-testing
 
+GET FUNCTION 
+Person
+
 Function Available
 
 1) OrganizationAdd (POST) 
@@ -19,13 +22,13 @@ Function Available
 where 
     ID_1 = resume id (will be same with Person id)
     ID_2 = Organization id
-    
+    STRING = description
+
 
 2) PersonAdd (POST)
     description: Person Add Something to Resume (need to be approved by Organization)
     parameter : {
   "$class": "org.example.firstnetwork.PersonAdd",
-  "requestId": "",
   "owner": "resource:org.example.firstnetwork.Person#<ID_1>",
   "org": "resource:org.example.firstnetwork.Organization#<ID_2>",
   "resume": "resource:org.example.firstnetwork.Resume#<ID_3>",
@@ -40,6 +43,7 @@ where
     ID_1 = Person id
     ID_2 = Organization id
     ID_3 = (ID_1) resume id (will be same with Person id)
+    STRING = description
 
 
 3) OrganizationApproved (POST)

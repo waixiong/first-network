@@ -3,7 +3,7 @@
     "composer": "^0.19.15"
   },
   "name": "first-network",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "first network for thechee-testing",
   "scripts": {
     "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/first-network.bna",

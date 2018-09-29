@@ -53,7 +53,7 @@ async function organizationAdd(orgAdd) {
     // Update the asset with the new value.
     orgAdd.addValue.Approved = true;
     const factory = getFactory();
-    var approved = factory.newResource('org.example.firstnetwork', 'approvedResume', orgAdd.resume.getIdentifier());
+    var approved = factory.newResource('org.example.firstnetwork', 'approvedResume', orgAdd.getIdentifier());
     approved.owner = factory.newRelationship('org.example.firstnetwork', 'Person', orgAdd.resume.owner.getIdentifier());
     approved.org = factory.newRelationship('org.example.firstnetwork', 'Organization', orgAdd.addValue.org.getIdentifier());
     approved.resume = factory.newRelationship('org.example.firstnetwork', 'Resume', orgAdd.resume.getIdentifier());
@@ -83,7 +83,7 @@ async function personAdd(requestAdd) {
 
     //build new request
     const factory = getFactory();
-    const requestResume = factory.newResource('org.example.firstnetwork', 'requestResume', requestAdd.requestId);
+    const requestResume = factory.newResource('org.example.firstnetwork', 'requestResume', requestAdd.getIdentifier());
     requestResume.owner = factory.newRelationship('org.example.firstnetwork', 'Person', requestAdd.owner.getIdentifier());
     requestResume.org = factory.newRelationship('org.example.firstnetwork', 'Organization', requestAdd.org.getIdentifier());
     requestResume.resume = factory.newRelationship('org.example.firstnetwork', 'Resume', requestAdd.resume.getIdentifier());
@@ -167,7 +167,17 @@ async function addEmployer(change) {
     const factory = getFactory();
     var resume = change.resume;
     var employer = change.employer;
-    resume.org.push(employer);
+    var exist = false;
+    var org = resume.org;
+    for( var i = 0; i < org.length; i++){ 
+        if ( org[i].getIdentifier() === employer.getIdentifier()) {
+          exist = true;
+          break;
+        }
+    }
+    if(!exist){
+        resume.org.push(employer);
+    }
 
     //resume.employer = factory.newRelationship('org.example.firstnetwork', 'Organization', employer.getIdentifier());
     //person.workingOrganization = factory.newRelationship('org.example.firstnetwork', 'Organization', employer.getIdentifier());

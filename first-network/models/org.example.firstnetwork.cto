@@ -96,7 +96,6 @@ event OrganizationAddEvent {
 
 //Person add event
 transaction PersonAdd {
-  o String requestId 
   --> Person owner
   --> Organization org
   --> Resume resume      //resume that will be add
