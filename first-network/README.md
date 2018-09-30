@@ -20,8 +20,8 @@ first network for HRB-testing
 3a. Start adding to entry to your person's resume (which will be updated by organization) or approve add request by person
 3b. Query person's resume by ID under `Operation` menu
 
-# GET FUNCTION 
 
+# REST METHODS
 Function Available
 
 1) OrganizationAdd (POST) 
