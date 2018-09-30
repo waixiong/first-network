@@ -5,20 +5,20 @@ first network for HRB-testing
 # Installation steps:
 1. clone project to directory
 2. install a node on localhost and run composer-rest-server on docker
-2a. configure `rest_server` in `src/main.py` to the rest server address
+    * configure `rest_server` in `src/main.py` to the rest server address
 3. run `python3 src/main.py`
 
 # How to use:
 1. On first use, select `Admin` access
-1a. Create a new Person and new Organization under `Admin` menu
+    * Create a new Person and new Organization under `Admin` menu
 
 2. As `Person`, start using with your person ID
-2a. Add/Delete your employer with their organization ID under `Operation` menu
-2b. Start adding your own resume (entry which will be approved by organization) or update your resume (entry which is approved by organization)
+    * Add/Delete your employer with their organization ID under `Operation` menu
+    * Start adding your own resume (entry which will be approved by organization) or update your resume (entry which is approved by organization)
 
 3. As `Organization`, start using with your organization ID
-3a. Start adding to entry to your person's resume (which will be updated by organization) or approve add request by person
-3b. Query person's resume by ID under `Operation` menu
+    * Start adding to entry to your person's resume (which will be updated by organization) or approve add request by person
+    * Query person's resume by ID under `Operation` menu
 
 
 # REST METHODS
