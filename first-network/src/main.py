@@ -6,6 +6,7 @@ import requests
 from tkinter.scrolledtext import ScrolledText
 
 rest_server = 'http://localhost:3000/api/' ##CONFIGURE THIS
+resume_format = 'Organization Name: SAMPLE_COMPANY\nDate: DD/MM/YYYY\nEntry: PLEASE FOLLOW THIS FORMAT, RESUME ENTRY GOES HERE'
 
 
 class GUI(tk.Tk):
@@ -60,7 +61,6 @@ class GUI(tk.Tk):
         self.refresh()
 
     def refresh(self):
-        # TODO allow deletion of approvedResume and requestResume
         self.entries = {}
         if self.access_type == 'person':
             url = rest_server + 'approvedResume'
@@ -134,10 +134,45 @@ class GUI(tk.Tk):
             button = tk.ttk.Button(frame, text='Update',
                                    command=lambda: self.person_update(id,win) or self.refresh())
             button.pack(pady=5)
+            button1 = tk.ttk.Button(frame, text='Delete',
+                                    command=lambda : self.del_approved_resume(id, win))
+            button1.pack(pady=5)
+
         elif self.access_type == 'org':
             button = tk.ttk.Button(frame, text='Approve',
                                    command=lambda: self.organization_approve(id,win) or self.refresh())
             button.pack(pady=5)
+            button1 = tk.ttk.Button(frame, text='Delete',
+                                    command=lambda: self.del_request_resume(id, win))
+            button1.pack(pady=5)
+
+    def del_approved_resume(self,id=None,win=None):
+        if id is not None:
+            msg = tk.messagebox.askokcancel('Confirmation','Are you sure?\nThe operation cannot be undone.',parent=win)
+            if msg:
+                response = requests.delete(rest_server + 'approvedResume/'+id)
+                txt = response.text
+                if txt != '':
+                    response = response.json()
+                    tk.messagebox.showerror(response['error']['name'], response['error']['message'], parent=win)
+                else:
+                    tk.messagebox.showinfo('Success', 'Transaction Successful', parent=win)
+                win.destroy()
+                self.refresh()
+
+    def del_request_resume(self,id=None,win=None):
+        if id is not None:
+            msg = tk.messagebox.askokcancel('Confirmation','Are you sure?\nThe operation cannot be undone.',parent=win)
+            if msg:
+                response = requests.delete(rest_server + 'requestResume/'+id)
+                txt = response.text
+                if txt != '':
+                    response=response.json()
+                    tk.messagebox.showerror(response['error']['name'], response['error']['message'], parent=win)
+                else:
+                    tk.messagebox.showinfo('Success', 'Transaction Successful', parent=win)
+                win.destroy()
+                self.refresh()
 
     def query_resume(self):
         def operation():
@@ -303,14 +338,14 @@ class GUI(tk.Tk):
             frame.pack(fill=tk.X, padx=5, pady=5)
             orgFrame = ttk.Frame(frame)
             orgFrame.pack(fill=tk.X, pady=5)
-            orgLabel = ttk.Label(orgFrame, text='{0:15}\t:'.format('Organization Unique ID'))
+            orgLabel = ttk.Label(orgFrame, text='{0:20}\t:'.format('Organization Unique ID'))
             orgLabel.pack(side=tk.LEFT, padx=5)
             orgEntry = ttk.Entry(orgFrame)
             orgEntry.pack(side=tk.LEFT)
             orgEntry.focus()
             nameFrame = ttk.Frame(frame)
             nameFrame.pack(fill=tk.X, pady=5)
-            nameLabel = ttk.Label(nameFrame, text='{0:15}\t:'.format('Organization Name'))
+            nameLabel = ttk.Label(nameFrame, text='{0:20}\t:'.format('Organization Name'))
             nameLabel.pack(side=tk.LEFT, padx=5)
             nameEntry = ttk.Entry(nameFrame)
             nameEntry.pack(side=tk.LEFT)
@@ -466,6 +501,7 @@ class GUI(tk.Tk):
             dataLabel.pack(side=tk.LEFT, padx=5)
             dataEntry = tk.Text(dataFrame)
             dataEntry.pack(side=tk.LEFT)
+            dataEntry.insert(tk.INSERT,resume_format)
             submit = tk.ttk.Button(frame, text='Submit', width=10,
                                    command=lambda: proceed())
             submit.pack(pady=5)
@@ -546,6 +582,7 @@ class GUI(tk.Tk):
             dataLabel.pack(side=tk.LEFT, padx=5)
             dataEntry = tk.Text(dataFrame)
             dataEntry.pack(side=tk.LEFT)
+            dataEntry.insert(tk.INSERT,resume_format)
             submit = tk.ttk.Button(frame, text='Submit', width=10,
                                    command=lambda: proceed())
             submit.pack(pady=5)
