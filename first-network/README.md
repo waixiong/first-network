@@ -2,13 +2,13 @@
 
 first network for HRB-testing
 
-#Installation steps:
+# Installation steps:
 1. clone project to directory
 2. install a node on localhost and run composer-rest-server on docker
 2a. configure `rest_server` in `src/main.py` to the rest server address
 3. run `python3 src/main.py`
 
-#How to use:
+# How to use:
 1. On first use, select `Admin` access
 1a. Create a new Person and new Organization under `Admin` menu
 
