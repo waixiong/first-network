@@ -24,84 +24,84 @@ first network for HRB-testing
 # REST METHODS
 Function Available
 
-1) OrganizationAdd (POST) 
-    description: Organization Add Something to Resume (need to be updated by Person)
-    parameter : {
-  "$class": "org.example.firstnetwork.OrganizationAdd",
-  "resume": "resource:org.example.firstnetwork.Resume#<ID_1>",
-  "addValue": {
-    "$class": "org.example.firstnetwork.ResumeValue",
-    "Value": <STRING>,
-    "org": "resource:org.example.firstnetwork.Organization#<ID_2>",
-    "Approved": false
-  }
-}
-where 
-    ID_1 = resume id (will be same with Person id)
-    ID_2 = Organization id
-    STRING = description
-
-
-2) PersonAdd (POST)
-    description: Person Add Something to Resume (need to be approved by Organization)
-    parameter : {
-  "$class": "org.example.firstnetwork.PersonAdd",
-  "owner": "resource:org.example.firstnetwork.Person#<ID_1>",
-  "org": "resource:org.example.firstnetwork.Organization#<ID_2>",
-  "resume": "resource:org.example.firstnetwork.Resume#<ID_3>",
-  "addValue": {
-    "$class": "org.example.firstnetwork.ResumeValue",
-    "Value": <STRING>,
-    "org": "resource:org.example.firstnetwork.Organization#<ID_2>",
-    "Approved": false
-  }
-}
-where 
-    ID_1 = Person id
-    ID_2 = Organization id
-    ID_3 = (ID_1) resume id (will be same with Person id)
-    STRING = description
-
-
-3) OrganizationApproved (POST)
-    description: Organization approved Person's request to add to Resume (need to be updated by Person)
-    parameter : {
-  "$class": "org.example.firstnetwork.OrganizationApproved",
-  "request": "resource:org.example.firstnetwork.requestResume#<ID>"
-}
-where 
-    ID = id for request doc to be add 
-
-
-4) UpdateResume (POST)
-    description: Person update it resume with the doc approved by Organization
-    parameter : {
-  "$class": "org.example.firstnetwork.UpdateResume",
-  "approved": "resource:org.example.firstnetwork.approvedResume#<ID>"
-}
-where 
-    ID = id for approved doc to be add 
-
-
-5) AddEmployer (POST)
-    description: Person add Organization to resume
-    parameter : {
-  "$class": "org.example.firstnetwork.AddEmployer",
-  "resume": "resource:org.example.firstnetwork.Resume#<ID_1>",
-  "employer": "resource:org.example.firstnetwork.Organization#<ID_2>"
-}
-where 
-    ID_1 = resume id (will be same with Person id)
-    ID_2 = organization id
-
-
-6) DeleteEmployer (POST)
-    description: Person delete Organization from resume
-    parameter : {
-  "$class": "org.example.firstnetwork.AddEmployer",
-  "resume": "resource:org.example.firstnetwork.Resume#<ID>",
-  "employer": "resource:org.example.firstnetwork.Organization#<ID>"
-}
-where 
-    ID_1 = resume id (will be same with Person id)
-    ID_2 = organization id
+1. `OrganizationAdd` (POST) \n
+    description: Organization Add Something to Resume (need to be updated by Person) \n
+    parameter : { \n
+  "$class": "org.example.firstnetwork.OrganizationAdd", \n
+  "resume": "resource:org.example.firstnetwork.Resume#<ID_1>", \n
+  "addValue": { \n
+    "$class": "org.example.firstnetwork.ResumeValue", \n
+    "Value": <STRING>, \n
+    "org": "resource:org.example.firstnetwork.Organization#<ID_2>", \n
+    "Approved": false \n
+  } \n
+} \n
+where  \n
+    ID_1 = resume id (will be same with Person id) \n
+    ID_2 = Organization id \n
+    STRING = description \n
+ \n
+ \n
+2. `PersonAdd` (POST) \n
+    description: Person Add Something to Resume (need to be approved by Organization) \n
+    parameter : { \n
+  "$class": "org.example.firstnetwork.PersonAdd", \n
+  "owner": "resource:org.example.firstnetwork.Person#<ID_1>", \n
+  "org": "resource:org.example.firstnetwork.Organization#<ID_2>", \n
+  "resume": "resource:org.example.firstnetwork.Resume#<ID_3>", \n
+  "addValue": { \n
+    "$class": "org.example.firstnetwork.ResumeValue", \n
+    "Value": <STRING>, \n
+    "org": "resource:org.example.firstnetwork.Organization#<ID_2>", \n
+    "Approved": false \n
+  } \n
+} \n
+where  \n
+    ID_1 = Person id \n
+    ID_2 = Organization id \n
+    ID_3 = (ID_1) resume id (will be same with Person id) \n
+    STRING = description \n
+ \n
+ \n
+3. `OrganizationApproved` (POST) \n
+    description: Organization approved Person's request to add to Resume (need to be updated by Person) \n
+    parameter : { \n
+  "$class": "org.example.firstnetwork.OrganizationApproved", \n
+  "request": "resource:org.example.firstnetwork.requestResume#<ID>" \n
+} \n
+where  \n
+    ID = id for request doc to be add  \n
+ \n
+ \n
+4. `UpdateResume` (POST) \n
+    description: Person update it resume with the doc approved by Organization \n
+    parameter : { \n
+  "$class": "org.example.firstnetwork.UpdateResume", \n
+  "approved": "resource:org.example.firstnetwork.approvedResume#<ID>" \n
+} \n
+where  \n
+    ID = id for approved doc to be add  \n
+ \n
+ \n
+5. `AddEmployer` (POST) \n
+    description: Person add Organization to resume \n
+    parameter : { \n
+  "$class": "org.example.firstnetwork.AddEmployer", \n
+  "resume": "resource:org.example.firstnetwork.Resume#<ID_1>", \n
+  "employer": "resource:org.example.firstnetwork.Organization#<ID_2>" \n
+} \n
+where  \n
+    ID_1 = resume id (will be same with Person id) \n
+    ID_2 = organization id \n
+ \n
+ \n
+6. `DeleteEmployer` (POST) \n
+    description: Person delete Organization from resume \n
+    parameter : { \n
+  "$class": "org.example.firstnetwork.AddEmployer", \n
+  "resume": "resource:org.example.firstnetwork.Resume#<ID>", \n
+  "employer": "resource:org.example.firstnetwork.Organization#<ID>" \n
+} \n
+where  \n
+    ID_1 = resume id (will be same with Person id) \n
+    ID_2 = organization id \n
