@@ -71,19 +71,19 @@ rule PersonCanChangeDeleteEmployer {
     action: ALLOW
 }
 
-rule OrgCanCreateApprovedResume {
+rule OrgCanCreateApprovedDoc {
     description: "Allow organization to add resume"
     participant: "org.example.firstnetwork.Organization"
     operation: CREATE
-    resource: "org.example.firstnetwork.approvedResume"
+    resource: "org.example.firstnetwork.approvedDoc"
     action: ALLOW
 }
 
-rule PersonCanDeleteApprovedResume {
+rule PersonCanDeleteApprovedDoc {
     description: "Person have delete  aprovedResume"
     participant(p): "org.example.firstnetwork.Person"
     operation: READ, DELETE
-    resource(r): "org.example.firstnetwork.approvedResume"
+    resource(r): "org.example.firstnetwork.approvedDoc"
     condition: (r.owner.getIdentifier() === p.getIdentifier())
     action: ALLOW
 }
@@ -101,7 +101,7 @@ rule OwnerHasCreateAccessToTheirRequest {
     description: "Person have read access to their resume"
     participant(p): "org.example.firstnetwork.Person"
     operation: CREATE
-    resource(r): "org.example.firstnetwork.requestResume"
+    resource(r): "org.example.firstnetwork.requestDoc"
     condition: (true)
     action: ALLOW
 }
@@ -110,7 +110,7 @@ rule OwnerHasAllAccessToTheirRequest {
     description: "Person have read access to their resume"
     participant(p): "org.example.firstnetwork.Person"
     operation: ALL
-    resource(r): "org.example.firstnetwork.requestResume"
+    resource(r): "org.example.firstnetwork.requestDoc"
     condition: (r.owner.getIdentifier() === p.getIdentifier())
     action: ALLOW
 }
@@ -119,7 +119,7 @@ rule OrganizationHasSomeAccessToTheirWorkerRequest {
     description: "Person have read access to their resume"
     participant(p): "org.example.firstnetwork.Organization"
     operation: READ, DELETE
-    resource(r): "org.example.firstnetwork.requestResume"
+    resource(r): "org.example.firstnetwork.requestDoc"
     condition: (r.org.getIdentifier() === p.getIdentifier())
     action: ALLOW
 }

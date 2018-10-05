@@ -61,7 +61,7 @@ asset Resume identified by resumeId {
 }
 
 //Temporary Holder for request to addValue to Resume
-asset requestResume identified by requestId {
+asset requestDoc identified by requestId {
   o String requestId 
   --> Person owner
   --> Organization org
@@ -75,7 +75,7 @@ concept ResumeValue {
   o Boolean Approved
 }
 
-asset approvedResume identified by approvedId {
+asset approvedDoc identified by approvedId {
   o String approvedId 
   --> Person owner
   --> Organization org
@@ -90,7 +90,7 @@ transaction OrganizationAdd {
 }
 
 event OrganizationAddEvent {
-  --> approvedResume approved
+  --> approvedDoc approved
   o ResumeValue addValue
 }
 
@@ -103,13 +103,13 @@ transaction PersonAdd {
 }
 
 event PersonAddEvent {
-  --> requestResume asset
+  --> requestDoc asset
   o ResumeValue addValue
 }
 
 //Company approve person's add event
 transaction OrganizationApproved {
-  --> requestResume request
+  --> requestDoc request
 }
 
 event OrganizationApprovedEvent {
@@ -119,7 +119,7 @@ event OrganizationApprovedEvent {
 
 //Company approve person's add event
 transaction UpdateResume {
-  --> approvedResume approved
+  --> approvedDoc approved
 }
 
 event UpdateResumeEvent {

@@ -63,7 +63,7 @@ class GUI(tk.Tk):
     def refresh(self):
         self.entries = {}
         if self.access_type == 'person':
-            url = rest_server + 'approvedResume'
+            url = rest_server + 'approvedDoc'
             response = requests.get(url)
             result = response.json()
             if 'error' not in result:
@@ -86,7 +86,7 @@ class GUI(tk.Tk):
                             button.pack(pady=5)
 
         elif self.access_type == 'org':
-            url = rest_server + 'requestResume'
+            url = rest_server + 'requestDoc'
             response = requests.get(url)
             result = response.json()
             if 'error' not in result:
@@ -150,7 +150,7 @@ class GUI(tk.Tk):
         if id is not None:
             msg = tk.messagebox.askokcancel('Confirmation','Are you sure?\nThe operation cannot be undone.',parent=win)
             if msg:
-                response = requests.delete(rest_server + 'approvedResume/'+id)
+                response = requests.delete(rest_server + 'approvedDoc/'+id)
                 txt = response.text
                 if txt != '':
                     response = response.json()
@@ -164,7 +164,7 @@ class GUI(tk.Tk):
         if id is not None:
             msg = tk.messagebox.askokcancel('Confirmation','Are you sure?\nThe operation cannot be undone.',parent=win)
             if msg:
-                response = requests.delete(rest_server + 'requestResume/'+id)
+                response = requests.delete(rest_server + 'requestDoc/'+id)
                 txt = response.text
                 if txt != '':
                     response=response.json()
@@ -429,7 +429,7 @@ class GUI(tk.Tk):
     def person_update(self, resume_id=None, win=None):
         def proceed(resume_inner_id, win):
             json = {"$class": "org.example.firstnetwork.UpdateResume",
-                    "approved": "resource:org.example.firstnetwork.approvedResume#{}".format(resume_inner_id)}
+                    "approved": "resource:org.example.firstnetwork.approvedDoc#{}".format(resume_inner_id)}
             response = requests.post(rest_server + 'UpdateResume', json=json)
             response = response.json()
             if 'error' in response:
@@ -512,7 +512,7 @@ class GUI(tk.Tk):
     def organization_approve(self, resume_id=None, win=None):
         def proceed(resume_id, win):
             json = {"$class": "org.example.firstnetwork.OrganizationApproved",
-                    "request": "resource:org.example.firstnetwork.requestResume#{}".format(resume_id)}
+                    "request": "resource:org.example.firstnetwork.requestDoc#{}".format(resume_id)}
             response = requests.post(rest_server + 'OrganizationApproved', json=json)
             response = response.json()
             if 'error' in response:

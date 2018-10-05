@@ -53,14 +53,14 @@ async function organizationAdd(orgAdd) {
     // Update the asset with the new value.
     orgAdd.addValue.Approved = true;
     const factory = getFactory();
-    var approved = factory.newResource('org.example.firstnetwork', 'approvedResume', orgAdd.getIdentifier());
+    var approved = factory.newResource('org.example.firstnetwork', 'approvedDoc', orgAdd.getIdentifier());
     approved.owner = factory.newRelationship('org.example.firstnetwork', 'Person', orgAdd.resume.owner.getIdentifier());
     approved.org = factory.newRelationship('org.example.firstnetwork', 'Organization', orgAdd.addValue.org.getIdentifier());
     approved.resume = factory.newRelationship('org.example.firstnetwork', 'Resume', orgAdd.resume.getIdentifier());
     approved.addValue = orgAdd.addValue;
 
     // Get the asset registry for the asset.
-    const assetRegistry = await getAssetRegistry('org.example.firstnetwork.approvedResume');
+    const assetRegistry = await getAssetRegistry('org.example.firstnetwork.approvedDoc');
     // Update the asset in the asset registry.
     await assetRegistry.add(approved);
 
@@ -83,20 +83,20 @@ async function personAdd(requestAdd) {
 
     //build new request
     const factory = getFactory();
-    const requestResume = factory.newResource('org.example.firstnetwork', 'requestResume', requestAdd.getIdentifier());
-    requestResume.owner = factory.newRelationship('org.example.firstnetwork', 'Person', requestAdd.owner.getIdentifier());
-    requestResume.org = factory.newRelationship('org.example.firstnetwork', 'Organization', requestAdd.org.getIdentifier());
-    requestResume.resume = factory.newRelationship('org.example.firstnetwork', 'Resume', requestAdd.resume.getIdentifier());
-    requestResume.addValue = requestAdd.addValue;
+    const requestDoc = factory.newResource('org.example.firstnetwork', 'requestDoc', requestAdd.getIdentifier());
+    requestDoc.owner = factory.newRelationship('org.example.firstnetwork', 'Person', requestAdd.owner.getIdentifier());
+    requestDoc.org = factory.newRelationship('org.example.firstnetwork', 'Organization', requestAdd.org.getIdentifier());
+    requestDoc.resume = factory.newRelationship('org.example.firstnetwork', 'Resume', requestAdd.resume.getIdentifier());
+    requestDoc.addValue = requestAdd.addValue;
 
     // Get the asset registry for the asset.
-    const assetRegistry = await getAssetRegistry(requestResume.getFullyQualifiedType());
+    const assetRegistry = await getAssetRegistry(requestDoc.getFullyQualifiedType());
     // Update the asset in the asset registry.
-    await assetRegistry.add(requestResume);
+    await assetRegistry.add(requestDoc);
 
     // Emit an event for the modified asset.
     let event = getFactory().newEvent('org.example.firstnetwork', 'PersonAddEvent');
-    event.asset = requestResume;
+    event.asset = requestDoc;
     event.addValue = requestAdd.addValue;
     emit(event);
 }
@@ -107,22 +107,22 @@ async function personAdd(requestAdd) {
  * @param {org.example.firstnetwork.OrganizationApproved} organizationApproved
  * @transaction
  */
-async function organizationApproved(approvedResume) {
+async function organizationApproved(approvedDoc) {
     const factory = getFactory();
-    var approved = factory.newResource('org.example.firstnetwork', 'approvedResume', approvedResume.request.requestId);
-    approved.owner = factory.newRelationship('org.example.firstnetwork', 'Person', approvedResume.request.owner.getIdentifier());
-    approved.org = factory.newRelationship('org.example.firstnetwork', 'Organization', approvedResume.request.org.getIdentifier());
-    approved.resume = factory.newRelationship('org.example.firstnetwork', 'Resume', approvedResume.request.resume.getIdentifier());
-    approved.addValue = approvedResume.request.addValue;
+    var approved = factory.newResource('org.example.firstnetwork', 'approvedDoc', approvedDoc.request.requestId);
+    approved.owner = factory.newRelationship('org.example.firstnetwork', 'Person', approvedDoc.request.owner.getIdentifier());
+    approved.org = factory.newRelationship('org.example.firstnetwork', 'Organization', approvedDoc.request.org.getIdentifier());
+    approved.resume = factory.newRelationship('org.example.firstnetwork', 'Resume', approvedDoc.request.resume.getIdentifier());
+    approved.addValue = approvedDoc.request.addValue;
     approved.addValue.Approved = true
 
     // Get and update resume.
-    const assetRegistry1 = await getAssetRegistry('org.example.firstnetwork.approvedResume');
+    const assetRegistry1 = await getAssetRegistry('org.example.firstnetwork.approvedDoc');
     await assetRegistry1.add(approved);
 
     //Get and remove request
-    const assetRegistry2 = await getAssetRegistry('org.example.firstnetwork.requestResume');
-    await assetRegistry2.remove(approvedResume.request);
+    const assetRegistry2 = await getAssetRegistry('org.example.firstnetwork.requestDoc');
+    await assetRegistry2.remove(approvedDoc.request);
 
     // Emit an event for the modified asset.
     let event = getFactory().newEvent('org.example.firstnetwork', 'OrganizationApprovedEvent');
@@ -137,9 +137,9 @@ async function organizationApproved(approvedResume) {
  * @param {org.example.firstnetwork.UpdateResume} updateResume
  * @transaction
  */
-async function updateResume(approvedResume) {
-    var resume = approvedResume.approved.resume;
-    var addValue = approvedResume.approved.addValue;
+async function updateResume(approvedDoc) {
+    var resume = approvedDoc.approved.resume;
+    var addValue = approvedDoc.approved.addValue;
     resume.value.push(addValue);
 
     // Get and update resume.
@@ -147,8 +147,8 @@ async function updateResume(approvedResume) {
     await assetRegistry1.update(resume);
 
     //Get and remove request
-    const assetRegistry2 = await getAssetRegistry('org.example.firstnetwork.approvedResume');
-    await assetRegistry2.remove(approvedResume.approved);
+    const assetRegistry2 = await getAssetRegistry('org.example.firstnetwork.approvedDoc');
+    await assetRegistry2.remove(approvedDoc.approved);
 
     // Emit an event for the modified asset.
     let event = getFactory().newEvent('org.example.firstnetwork', 'UpdateResumeEvent');
